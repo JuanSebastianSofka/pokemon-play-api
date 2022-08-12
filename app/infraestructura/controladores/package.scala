@@ -22,4 +22,9 @@ package object controladores {
       case "Dragon()" => Pokemon(pokemonDTO.id, pokemonDTO.nombre, Dragon())
     }
   }
+
+  //Convierte de lista de pokemon, a lista pokemon dto
+  implicit def listaPokemonADTO(pokemones: List[Pokemon]): List[PokemonDTO] = {
+    pokemones.map(pokemon => pokemonADto(pokemon))  //es lo mismo que Pokemon(pokemon.id, pokemon.nombre, pokemon.tipo)
+  }
 }
