@@ -20,6 +20,7 @@ package object controladores {
       case "Agua()" => Pokemon(pokemonDTO.id, pokemonDTO.nombre, Agua())
       case "Viento()" => Pokemon(pokemonDTO.id, pokemonDTO.nombre, Viento())
       case "Dragon()" => Pokemon(pokemonDTO.id, pokemonDTO.nombre, Dragon())
+      case _ => null
     }
   }
 

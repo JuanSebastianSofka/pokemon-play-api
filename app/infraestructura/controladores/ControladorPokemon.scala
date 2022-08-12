@@ -1,17 +1,18 @@
 package infraestructura.controladores
 
-import dominio.servicios.ObtenerPokemon
+import dominio.servicios.{CrearPokemon, ObtenerPokemon}
 import infraestructura.controladores.dto.PokemonDTO
 import play.api.libs.json.Json
 import play.api.mvc.{BaseController, ControllerComponents}
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 @Singleton
-class ControladorPokemon @Inject()(val controllerComponents: ControllerComponents) extends BaseController{
-  
-  def obtenerPokemon(id:String) = Action.async{
+class ControladorPokemon @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+
+  def obtenerPokemon(id: String) = Action.async {
     ObtenerPokemon.obtenerPokemon(id).map(
       pokemonOpt => pokemonOpt.map(pokemon => {
         //solo muestro el DTO
@@ -19,7 +20,7 @@ class ControladorPokemon @Inject()(val controllerComponents: ControllerComponent
         val json = Json.toJson(pokemonDto)
         Ok(json)
       }).getOrElse(NotFound(s"No existe pokemon con el id $id"))
-    ).recover{
+    ).recover {
       case ex => InternalServerError(s"Ocurrio un error interno: ${ex.getMessage}")
     }
   }
@@ -35,6 +36,32 @@ class ControladorPokemon @Inject()(val controllerComponents: ControllerComponent
     ).recover {
       case ex => InternalServerError(s"Ocurrio un error interno: ${ex.getMessage}")
     }
+  }
+
+  //----------------------------------
+  def crearPokemon() = Action.async(parse.json) {
+    request =>
+      val validar = request.body.validate[PokemonDTO]
+
+      validar.asEither match {
+        case Left(value) => Future.successful(BadRequest(value.toString()))
+
+        case Right(value) => CrearPokemon.crearTipoElectrico(value)
+          .map(pokemon => {
+            val pokemonDTO: PokemonDTO = pokemon
+            val json = Json.toJson(pokemonDTO)
+            Ok(json)
+          }).recover {
+          case ex => InternalServerError(
+            """Ocurrio un error: El ID ya está asignado a otro pokemon o el tipo es diferente a los siguientes
+              |      "Electrico()"
+              |      "Fuego()"
+              |      "Agua()"
+              |      "Viento()"
+              |      "Dragon()"
+              |""".stripMargin)
+        }
+      }
   }
 
 }

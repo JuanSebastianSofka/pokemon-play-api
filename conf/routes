@@ -5,6 +5,8 @@
 
 # An example controller showing a sample home page
 GET /api/pokemon/:id infraestructura.controladores.ControladorPokemon.obtenerPokemon(id: String)
-
 GET /api/pokemones infraestructura.controladores.ControladorPokemon.obtenerTodosLosPokemon
+
+POST /api/crear-pokemon infraestructura.controladores.ControladorPokemon.crearPokemon
+
 
