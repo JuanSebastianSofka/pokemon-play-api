@@ -9,4 +9,6 @@ GET /api/pokemones infraestructura.controladores.ControladorPokemon.obtenerTodos
 
 POST /api/crear-pokemon infraestructura.controladores.ControladorPokemon.crearPokemon
 
+DELETE /api/eliminar-pokemon/:id infraestructura.controladores.ControladorPokemon.eliminarPoke(id: String)
+
 

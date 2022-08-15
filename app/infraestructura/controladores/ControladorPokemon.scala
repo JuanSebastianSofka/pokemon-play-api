@@ -1,6 +1,6 @@
 package infraestructura.controladores
 
-import dominio.servicios.{CrearPokemon, ObtenerPokemon}
+import dominio.servicios.{CrearPokemon, EliminarPokemon, ObtenerPokemon}
 import infraestructura.controladores.dto.PokemonDTO
 import play.api.libs.json.Json
 import play.api.mvc.{BaseController, ControllerComponents}
@@ -62,6 +62,15 @@ class ControladorPokemon @Inject()(val controllerComponents: ControllerComponent
               |""".stripMargin)
         }
       }
+  }
+
+  //---------------------------------
+  def eliminarPoke(id: String) = Action.async{
+    EliminarPokemon.eliminarPokemons(id).map(pokemon => {
+      Ok(s"Se eliminó pokemon con id $id")
+    }).recover{
+      case ex => InternalServerError("No existe ese pokemon")
+    }
   }
 
 }
