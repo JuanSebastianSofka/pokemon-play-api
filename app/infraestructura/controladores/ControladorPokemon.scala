@@ -1,6 +1,6 @@
 package infraestructura.controladores
 
-import dominio.servicios.{CrearPokemon, EliminarPokemon, ObtenerPokemon}
+import dominio.servicios.{ActualizarPokemon, CrearPokemon, EliminarPokemon, ObtenerPokemon}
 import infraestructura.controladores.dto.PokemonDTO
 import play.api.libs.json.Json
 import play.api.mvc.{BaseController, ControllerComponents}
@@ -46,7 +46,7 @@ class ControladorPokemon @Inject()(val controllerComponents: ControllerComponent
       validar.asEither match {
         case Left(value) => Future.successful(BadRequest(value.toString()))
 
-        case Right(value) => CrearPokemon.crearTipoElectrico(value)
+        case Right(value) => CrearPokemon.crearPokemones(value)
           .map(pokemon => {
             val pokemonDTO: PokemonDTO = pokemon
             val json = Json.toJson(pokemonDTO)
@@ -65,12 +65,38 @@ class ControladorPokemon @Inject()(val controllerComponents: ControllerComponent
   }
 
   //---------------------------------
-  def eliminarPoke(id: String) = Action.async{
+  def eliminarPoke(id: String) = Action.async {
     EliminarPokemon.eliminarPokemons(id).map(pokemon => {
       Ok(s"Se eliminó pokemon con id $id")
-    }).recover{
+    }).recover {
       case ex => InternalServerError("No existe ese pokemon")
     }
+  }
+
+  //-----------------
+  def actualizarPoke() = Action.async((parse.json)) {
+    request =>
+      val validar = request.body.validate[PokemonDTO]
+
+      validar.asEither match {
+        case Left(value) => Future.successful(BadRequest(value.toString()))
+
+        case Right(value) => ActualizarPokemon.actualizarPokemon(value)
+          .map(pokemon => {
+            val pokemonDTO: PokemonDTO = pokemon
+            val json = Json.toJson(pokemonDTO)
+            Ok(json)
+          }).recover {
+          case ex => InternalServerError(
+            """Ocurrio un error: El ID ingresado no existe en la lista actual o el tipo es diferente a los siguientes
+              |      "Electrico()"
+              |      "Fuego()"
+              |      "Agua()"
+              |      "Viento()"
+              |      "Dragon()"
+              |""".stripMargin)
+        }
+      }
   }
 
 }

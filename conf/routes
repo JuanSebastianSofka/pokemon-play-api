@@ -11,4 +11,6 @@ POST /api/crear-pokemon infraestructura.controladores.ControladorPokemon.crearPo
 
 DELETE /api/eliminar-pokemon/:id infraestructura.controladores.ControladorPokemon.eliminarPoke(id: String)
 
+PUT /api/actualizar-pokemon infraestructura.controladores.ControladorPokemon.actualizarPoke
+
 
