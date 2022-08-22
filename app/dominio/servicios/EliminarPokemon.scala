@@ -12,7 +12,7 @@ trait EliminarPokemon {
     val pokemonExiste = ListaPokemon.listaPokemon.filter(pokemon => pokemon.id == id)
 
     if(pokemonExiste.isEmpty){
-      throw new Exception
+      throw new Exception("Hubo un error, el pokemon no existe")
     }else{
       ListaPokemon.listaPokemon = ListaPokemon.listaPokemon.filter(pokemon => pokemon.id != id)
       id
