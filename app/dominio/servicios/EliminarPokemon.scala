@@ -1,8 +1,6 @@
 package dominio.servicios
 
-import dominio.modelo.Pokemon
 import infraestructura.basededatos.ListaPokemon
-import play.api.mvc.Results.InternalServerError
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

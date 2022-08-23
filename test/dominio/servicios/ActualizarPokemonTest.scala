@@ -1,6 +1,6 @@
 package dominio.servicios
 
-import dominio.modelo.{Agua, Dragon, Electrico, Fuego, Pokemon, Viento}
+import dominio.modelo._
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.matchers.must.Matchers
 

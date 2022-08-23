@@ -1,16 +1,13 @@
 package infraestructura.controladores
 
-import akka.util.ByteString
 import infraestructura.controladores.dto.PokemonDTO
 import org.scalatestplus.play.PlaySpec
 import play.api.libs.json.{JsString, JsValue, Json}
-import play.api.libs.streams.Accumulator
 import play.api.mvc.{Result, Results}
-import play.api.test._
 import play.api.test.Helpers._
+import play.api.test._
 
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
+import scala.concurrent.Future
 
 class ControladorPokemonTest extends PlaySpec with Results {
   "Test de todos los pokemones" should {

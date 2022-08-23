@@ -3,7 +3,7 @@ package dominio.servicios
 import dominio.modelo._
 import org.scalatest.funsuite.AsyncFunSuite
 import org.scalatest.matchers.must.{Matchers => MatchMust}
-import org.scalatest.matchers.should.{Matchers => MatchShould}
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.language.postfixOps

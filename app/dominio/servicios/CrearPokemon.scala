@@ -1,6 +1,6 @@
 package dominio.servicios
 
-import dominio.modelo.{Agua, Dragon, Electrico, Fuego, Pokemon, Viento}
+import dominio.modelo._
 import infraestructura.basededatos.ListaPokemon
 
 import scala.concurrent.ExecutionContext.Implicits.global
